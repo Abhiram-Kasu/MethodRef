@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignWidth="800" 
+             d:DesignHeight="450"
+             xmlns:vm="clr-namespace:MethodRefFrontend.ViewModels"
+             x:Class="MethodRefFrontend.Views.MainView"
+             x:DataType="vm:MainViewModel">
+    
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+    
+    <UserControl.Styles>
+        <!-- Target ContentPresenter in the template -->
+        <Style Selector="Button.Label /template/ ContentPresenter">
+            <Setter Property="Foreground" Value="{StaticResource TextControlForeground}" />
+        </Style>
+     
+    </UserControl.Styles>
+    
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Grid ColumnDefinitions="*,Auto" Margin="10">
+            <Button Classes="Label" IsEnabled="False" Margin="5" 
+                    Content="{Binding PublicSearchPath}" 
+                    HorizontalAlignment="Stretch" />
+            <Button Margin="5" 
+                    Grid.Column="1" 
+                    Content="..." 
+                    Command="{Binding ChooseFolderCommand}" />
+        </Grid>
+        <ProgressBar Grid.Row="1" Margin="15" IsIndeterminate="True" IsVisible="{Binding IsIndexing}" HorizontalAlignment="Stretch"></ProgressBar>
+        
+        <Grid Margin="10" Grid.Row="2" RowDefinitions="Auto,*, Auto">
+            <Button IsEnabled="False" Margin="5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"  Classes="Label" Content="{Binding Logs.Count}"></Button>
+            <ListBox Grid.Row="1" Margin="5"  VerticalAlignment="Stretch" ItemsSource="{Binding Logs}"></ListBox>
+            <Button Margin="5" Grid.Row="2" Content="Start Indexing" HorizontalAlignment="Center" Command="{Binding StartIndexingCommand}"></Button>
+        </Grid>
+        
+    </Grid>
+</UserControl>
