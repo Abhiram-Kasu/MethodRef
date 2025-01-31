@@ -9,13 +9,15 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace MethodRefFrontend.Services;
 
+
+
 public static class FileIndexing
 {
-    public static async Task IndexFilesAsync(string path, ChannelWriter<string> outputChannel)
+    public static async Task IndexFilesAsync(string path, ChannelWriter<(MethodDeclarationSyntax, string)> outputChannel)
     {
         var files = Directory.EnumerateFiles(path, "*.cs", SearchOption.AllDirectories);
         
-        await Task.WhenAll(files.AsParallel().Select(async file =>
+        await Task.WhenAll(files.Select(async file =>
         {
             using var reader = new StreamReader(file);
             var syntaxTree = CSharpSyntaxTree.ParseText(await reader.ReadToEndAsync());
@@ -26,13 +28,8 @@ public static class FileIndexing
             foreach (var method in methods)
             {
 
-                var modifiers = string.Join(" ", method.Modifiers.Select(m => m.Text));
-                var returnType = method.ReturnType.ToString();
-                var methodName = method.Identifier.Text;
-                var parameters = string.Join(", ", method.ParameterList.Parameters.Select(p => p.ToString()));
-
-                var methodHeader = $"{modifiers} {returnType} {methodName}({parameters})";
-                await outputChannel.WriteAsync($"{methodHeader} in {Path.GetFileName(file)}");
+                
+                await outputChannel.WriteAsync((method, file));
             }
             
         }));

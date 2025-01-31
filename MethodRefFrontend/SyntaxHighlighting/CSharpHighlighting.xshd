@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="C#" extensions=".cs" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="Green" />
+  <Color name="String" foreground="Maroon" />
+  <Color name="Keyword" foreground="Blue" />
+  <Color name="Type" foreground="Teal" />
+  
+  <RuleSet>
+    <Span color="Comment" begin="//" />
+    <Span color="Comment" multiline="true" begin="/\*" end="\*/" />
+    <Span color="String" multiline="true" begin="\"" end="\"" escape="\\\"" />
+    <Span color="String" multiline="true" begin="@"\"" end="\"" />
+    
+    <Keywords color="Keyword">
+      <Word>abstract</Word>
+      <Word>as</Word>
+      <Word>async</Word>
+      <Word>await</Word>
+      <Word>base</Word>
+      <Word>bool</Word>
+      <!-- Add all C# keywords here -->
+    </Keywords>
+    
+    <Keywords color="Type">
+      <Word>string</Word>
+      <Word>int</Word>
+      <Word>void</Word>
+      <Word>object</Word>
+      <Word>var</Word>
+      <!-- Add type keywords -->
+    </Keywords>
+  </RuleSet>
+</SyntaxDefinition>
